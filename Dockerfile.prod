@@ -1,0 +1,43 @@
+# -------------> Install dependencies
+FROM node:latest AS DEPS_INSTALLER
+
+RUN npm i -g pnpm
+
+WORKDIR /usr/app
+
+COPY package.json .
+COPY package-lock.json .
+
+RUN npm ci
+
+# -------------> Build ts -> js
+
+FROM node:latest AS BUILD_IMAGE
+
+WORKDIR /usr/app
+
+ENV NODE_ENV production
+
+COPY --from=DEPS_INSTALLER /usr/app/node_modules ./node_modules
+
+COPY tsconfig.build.json .
+COPY package.json .
+COPY ./src ./src
+
+RUN npm run build
+
+# --------------> run application
+# image@digest
+FROM node:18-bullseye-slim@sha256:f3ecbc009558021098b634afe45ee6179aaa80a65501cd90dad65e0db9490af5 AS deploy
+WORKDIR /usr/app
+
+ENV NODE_ENV production
+
+COPY --chown=node:node --from=DEPS_INSTALLER /usr/app/node_modules ./node_modules
+COPY --chown=node:node --from=BUILD_IMAGE /usr/app/dist ./dist
+
+COPY --chown=node:node package.json .
+
+USER node
+
+CMD ["npm" ,"run", "start:prod"]
