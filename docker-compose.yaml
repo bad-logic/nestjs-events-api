@@ -1,0 +1,51 @@
+version: '3'
+
+networks:
+  events-networks:
+    name: nestjs-events-network
+
+volumes:
+  mysql-data:
+
+services:
+  nestjs-server:
+    image: nestjs-events:v1.0.0
+    build:
+      context: ./
+      dockerfile: Dockerfile
+      target: deploy
+    container_name: nestjs-events-server
+    environment:
+      - PORT=3000
+      - DATABASE_HOST=database-server
+      - DATABASE_PORT=3306
+      - DATABASE_NAME=events
+      - DATABASE_USER=nestjs
+      - DATABASE_PASSWORD=nestjsSecret
+      - JWT_SECRET=$%23#@sjlewr-34jls^&*lkjfgd#
+      - JWT_EXPIRES_IN=60 # in minutes
+    ports:
+      - 3000:3000
+      - 9229:9229 # debugging port
+    networks:
+      - events-networks
+    depends_on:
+      - database-server
+    volumes:
+      - ./dist:/usr/app/dist:delegated
+      - ./src:/usr/app/src:cached
+
+  database-server:
+    image: mysql:8.0.33
+    container_name: mysql-server
+    environment:
+      - MYSQL_ROOT_PASSWORD=mySecret
+      - MYSQL_DATABASE=events
+      - MYSQL_USER=nestjs
+      - MYSQL_PASSWORD=nestjsSecret
+    ports:
+      - 3306:3306
+    networks:
+      - events-networks
+    volumes:
+      - mysql-data:/var/lib/mysql
