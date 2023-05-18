@@ -4,7 +4,7 @@ import { Attendee, AttendeeAnswerEnum } from './attendee.entity';
 import { Event } from './event.entity';
 import { Injectable, Logger } from '@nestjs/common';
 import { ListEvents, WhenEventFilter } from './list.events';
-import { PaginateOptions, paginate } from '../pagination/paginator';
+import { PaginateOptions, paginate } from '../../common/pagination/paginator';
 
 @Injectable()
 export class EventService {
