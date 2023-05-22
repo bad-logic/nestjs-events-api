@@ -1,10 +1,13 @@
 import { InjectRepository } from '@nestjs/typeorm';
 import { DeleteResult, Repository, SelectQueryBuilder } from 'typeorm';
-import { Attendee, AttendeeAnswerEnum } from './attendee.entity';
+import { AttendeeAnswerEnum } from './attendee.entity';
 import { Event } from './event.entity';
 import { Injectable, Logger } from '@nestjs/common';
 import { ListEvents, WhenEventFilter } from './list.events';
 import { PaginateOptions, paginate } from '../../common/pagination/paginator';
+import { CreateEventDto } from './dto/create-event.dto';
+import { User } from '../auth/user.entity';
+import { UpdateEventDto } from './dto/update-event.dto.';
 
 @Injectable()
 export class EventService {
@@ -13,14 +16,28 @@ export class EventService {
   constructor(
     @InjectRepository(Event)
     private readonly eventsRepository: Repository<Event>,
-    @InjectRepository(Attendee)
-    private readonly attendeeRepository: Repository<Attendee>,
   ) {}
 
   private getEventsBaseQuery(): SelectQueryBuilder<Event> {
     return this.eventsRepository
       .createQueryBuilder('e')
       .orderBy('e.id', 'DESC');
+  }
+
+  public async createEvent(input: CreateEventDto, user: User) {
+    return this.eventsRepository.save({
+      ...input,
+      when: new Date(input.when),
+      organizer: user,
+    });
+  }
+
+  public async updateEvent(event: Event, input: UpdateEventDto) {
+    return this.eventsRepository.save({
+      ...event,
+      ...input,
+      when: input.when ? new Date(input.when) : event.when,
+    });
   }
 
   private getEventsWithAttendeeCountQuery(): SelectQueryBuilder<Event> {
