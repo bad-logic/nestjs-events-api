@@ -19,11 +19,9 @@ export class Attendee {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Column()
-  name: string;
-
   @ManyToOne(() => Event, (event) => event.attendees, {
     nullable: true,
+    onDelete: 'CASCADE',
   })
   @JoinColumn({
     name: 'event_id',

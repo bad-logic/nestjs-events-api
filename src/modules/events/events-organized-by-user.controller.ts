@@ -1,4 +1,12 @@
-import { Controller, Get, Logger, Param, Query } from '@nestjs/common';
+import {
+  Controller,
+  DefaultValuePipe,
+  Get,
+  Logger,
+  Param,
+  ParseIntPipe,
+  Query,
+} from '@nestjs/common';
 import { EventService } from './events.service';
 
 @Controller('events-organized-by-user/:userId')
@@ -9,9 +17,9 @@ export class EventsOrganizedByUserController {
 
   @Get()
   public async findAll(
-    @Param('userId') userId: number,
-    @Query('page') page = 1,
-    @Query('limit') limit = 10,
+    @Param('userId', ParseIntPipe) userId: number,
+    @Query('page', new DefaultValuePipe(1), ParseIntPipe) page = 1,
+    @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit = 10,
   ) {
     return this.eventsService.getEventsOrganizedByUserIdPaginated(userId, {
       currentPage: page,
