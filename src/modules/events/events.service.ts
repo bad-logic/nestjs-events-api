@@ -134,4 +134,20 @@ export class EventService {
       .where('id = :id', { id })
       .execute();
   }
+
+  private getEventeOrganizedByUserIdQuery(userId: number) {
+    return this.getEventsBaseQuery().where('e.organizer_id = :userId', {
+      userId,
+    });
+  }
+
+  public async getEventsOrganizedByUserIdPaginated(
+    userId: number,
+    paginateOptions: PaginateOptions,
+  ) {
+    return paginate(
+      this.getEventeOrganizedByUserIdQuery(userId),
+      paginateOptions,
+    );
+  }
 }
