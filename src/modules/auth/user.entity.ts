@@ -12,6 +12,9 @@ import { Attendee } from '../events/attendee.entity';
 
 @Entity('users')
 export class User {
+  constructor(partial?: Partial<User>) {
+    Object.assign(this, partial);
+  }
   @PrimaryGeneratedColumn()
   id: number;
 
