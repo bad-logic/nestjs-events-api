@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { TypeOrmModule } from '@nestjs/typeorm';
 import { EventsModule } from './modules/events/events.module';
 import ormConfig from './config/orm.config';
 import { AuthModule } from './modules/auth/auth.module';

@@ -1,6 +1,6 @@
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from './app.module';
 import { ValidationPipe } from '@nestjs/common';
+import { AppModule } from './app.module';
 import environment from './common/environment/environment';
 
 async function bootstrap() {
@@ -11,7 +11,7 @@ async function bootstrap() {
     // }
   );
   app.useGlobalPipes(new ValidationPipe());
-  console.log({ environment });
   await app.listen(environment.apiPort);
+  console.log({ environment });
 }
 bootstrap();
