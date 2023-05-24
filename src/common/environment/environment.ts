@@ -39,11 +39,14 @@ class Environment implements IEnvironment {
    */
   private constructor() {
     this.NODE_ENV = this.getString<'production' | 'development'>('NODE_ENV');
-    this.stage = STAGE.LOCAL;
+    this.stage = this.getString('STAGE');
     this.apiPort = this.getNumber('PORT');
     this.dbHost = this.getString('DATABASE_HOST');
     this.dbPort = this.getNumber('DATABASE_PORT');
-    this.dbName = this.getString('DATABASE_NAME');
+    this.dbName =
+      this.stage === STAGE.TESTING
+        ? this.getString('TEST_DATABASE_NAME')
+        : this.getString('DATABASE_NAME');
     this.dbUser = this.getString('DATABASE_USER');
     this.dbPassword = this.getString('DATABASE_PASSWORD');
     this.jwtSecret = this.getString('JWT_SECRET');

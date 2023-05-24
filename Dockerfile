@@ -23,6 +23,7 @@ COPY --chown=node:node --from=DEPS_INSTALLER /usr/app/node_modules ./node_module
 COPY --chown=node:node package.json .
 COPY --chown=node:node tsconfig.json .
 COPY --chown=node:node ./src ./src
+COPY --chown=node:node ./test ./test
 
 USER node
 
