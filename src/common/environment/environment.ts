@@ -68,7 +68,7 @@ class Environment implements IEnvironment {
   }
 
   /**
-   * extracts boolean from process.env 1 true 0 false
+   * extracts boolean from process.env, supporting both numeric and string representations
    *
    * @param { string } key
    * @returns { boolean }
@@ -78,12 +78,15 @@ class Environment implements IEnvironment {
     if (rawValue === undefined) {
       throw new Error(`Environment variable ${key} is not set`);
     }
-    if (Number.isNaN(rawValue)) {
+    if (rawValue === 'true' || rawValue === '1') {
+      return true;
+    } else if (rawValue === 'false' || rawValue === '0') {
+      return false;
+    } else {
       throw new Error(
-        `cannot convert Environment variable ${key} to type boolean`,
+        `Cannot convert Environment variable ${key} to type boolean`,
       );
     }
-    return Boolean(Number(rawValue));
   }
 
   /**
