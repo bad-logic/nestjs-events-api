@@ -20,17 +20,17 @@ interface IEnvironment {
 }
 
 class Environment implements IEnvironment {
-  stage: STAGE;
-  apiPort: number;
-  dbHost: string;
-  dbPort: number;
-  dbName: string;
-  dbUser: string;
-  dbPassword: string;
-  jwtSecret: string;
-  jwtExpiresIn: number;
+  readonly stage: STAGE;
+  readonly apiPort: number;
+  readonly dbHost: string;
+  readonly dbPort: number;
+  readonly dbName: string;
+  readonly dbUser: string;
+  readonly dbPassword: string;
+  readonly jwtSecret: string;
+  readonly jwtExpiresIn: number;
 
-  NODE_ENV?: 'production' | 'development';
+  readonly NODE_ENV: 'production' | 'development';
 
   private static instance: Environment;
 
@@ -102,21 +102,7 @@ class Environment implements IEnvironment {
         `cannot convert Environment variable ${key} to type number`,
       );
     }
-    return Number(rawValue);
-  }
-
-  /**
-   * extracts array from process.env
-   *
-   * @param {string} key
-   * @returns {T[] | undefined}
-   */
-  private getArray<T extends string>(key: string): T[] {
-    const rawValue = process.env[key];
-    if (rawValue === undefined) {
-      throw new Error(`Environment variable ${key} is not set`);
-    }
-    return rawValue.trim().split(',') as T[];
+    return parseInt(rawValue);
   }
 
   static getInstance(): Environment {

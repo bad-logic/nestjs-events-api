@@ -3,13 +3,13 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { EventsModule } from './modules/events/events.module';
-import ormConfig from './config/orm.config';
+import { ormConfig } from './db/orm.config';
 import { AuthModule } from './modules/auth/auth.module';
 
 @Module({
   imports: [
     TypeOrmModule.forRoot({
-      ...ormConfig(),
+      ...ormConfig,
     }),
     AuthModule,
     EventsModule,
