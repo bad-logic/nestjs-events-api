@@ -38,6 +38,7 @@ services:
       - ./src:/usr/app/src:cached
       - ./test:/usr/app/test:cached
       - ./package.json:/usr/app/package.json:cached
+      - ./coverage:/usr/app/coverage:delegated
 
   database-server:
     image: mysql:8.0.33

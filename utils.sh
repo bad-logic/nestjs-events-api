@@ -7,12 +7,18 @@ usage() {
         --help                      for help
         
     Commands:
+        start                           start the application
         migration:generate <filename>   generate migrations
         rollback                        revert last migration
         test:unit                       to run all unit tests
         test:e2e                        to run all e2e tests
+        test:cov                             generate test coverage
 USAGE
 exit 1
+}
+
+start(){
+    docker-compose up --build
 }
 
 runUnitTest(){
@@ -21,6 +27,10 @@ runUnitTest(){
 
 runE2ETest(){
     docker exec -it nestjs-events-server npm run test:e2e
+}
+
+generateTestCoverage(){
+    docker exec -it nestjs-events-server npm run test:cov
 }
 
 generate(){
@@ -48,11 +58,17 @@ else
     if [ -n "$1" ];
     then
         case $1 in
+        "start")
+            start
+            ;;
         "test:unit")
             runUnitTest
             ;;
         "test:e2e")
             runE2ETest
+            ;;
+        "test:cov")
+            generateTestCoverage
             ;;
         "migration:generate")
             generate $2
