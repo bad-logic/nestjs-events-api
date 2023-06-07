@@ -23,7 +23,6 @@ const loadFixtures = async (connection: Connection, sqlFileName: string) => {
     }
   }
 };
-
 export const tokenForUser = (
   app: INestApplication,
   user: Partial<User> = {
@@ -47,6 +46,7 @@ describe('Events E2E', () => {
     app.useGlobalPipes(new ValidationPipe());
     await app.init();
     connection = app.get(Connection); // fetches connection from ioc container
+    // fixture password is password
     await loadFixtures(connection, 'event-user.sql');
   });
 
