@@ -45,31 +45,33 @@ $ ./utils.sh start
 
 ```graphql
 # Examples
-
-query {
-  users {
-    id
+# Register user
+mutation {
+  userAdd(
+    input: {
+      username: "user12"
+      email: "user12@email.com"
+      password: "seCret@123"
+      retypedPassword: "seCret@123"
+      firstName: "user"
+      lastName: "one"
+    }
+  ) {
     username
-    password
-    email
-    profile {
-      id
-      firstName
-      lastName
-    }
-    events {
-      id
-      name
-      description
-    }
-    attended {
-      id
-    }
+    id
   }
 }
 
+# login
+mutation {
+  login(input: { username: "user1", password: "seCret@123" }) {
+    token
+  }
+}
+
+# get logged in user info
 query {
-  user(id: 10) {
+  me {
     id
     username
     profile {

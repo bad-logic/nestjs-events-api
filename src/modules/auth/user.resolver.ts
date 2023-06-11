@@ -5,6 +5,7 @@ import {
   Int,
   ResolveField,
   Parent,
+  Mutation,
 } from '@nestjs/graphql';
 import { User } from './user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -12,6 +13,8 @@ import { Repository } from 'typeorm';
 import { Logger, UseGuards } from '@nestjs/common';
 import { currentUser } from './current-user.decorator';
 import { AuthGuardJwtGql } from './auth-guard-jwt.gql';
+import { UserService } from './user.service';
+import { CreateUserDto } from './dto/create-user.dto';
 
 @Resolver(() => User)
 export class UserResolver {
@@ -20,12 +23,20 @@ export class UserResolver {
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
+    private readonly userService: UserService,
   ) {}
 
   @Query(() => User)
   @UseGuards(AuthGuardJwtGql)
   public me(@currentUser() user: User): User {
     return user;
+  }
+
+  @Mutation(() => User, { name: 'userAdd' })
+  public async add(
+    @Args('input') input: CreateUserDto,
+  ): Promise<Partial<User>> {
+    return this.userService.createUser(input);
   }
 
   @Query(() => [User])
