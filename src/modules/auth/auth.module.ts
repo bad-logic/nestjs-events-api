@@ -12,6 +12,7 @@ import { UserController } from './users.controller';
 import { UserResolver } from './user.resolver';
 import { AuthResolver } from './auth.resolver';
 import { UserService } from './user.service';
+import { UserExistsConstraint } from './validators/user-exists.contraint';
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { UserService } from './user.service';
     UserService,
     UserResolver,
     AuthResolver,
+    UserExistsConstraint,
   ],
 })
 export class AuthModule {}
