@@ -26,7 +26,7 @@ export class UserExistsConstraint implements ValidatorConstraintInterface {
       [validationArguments.property]: value,
     });
 
-    return existingUser !== null;
+    return existingUser === null;
   }
 
   defaultMessage(validationArguments?: ValidationArguments): string {
