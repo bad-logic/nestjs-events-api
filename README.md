@@ -39,17 +39,46 @@ $ npm install
 $ ./utils.sh start
 ```
 
-## Test
+## GraphQLQuery
 
-```bash
-# unit tests
-$ ./utils.sh test:unit
+> go to http://localhost:3000/graphql
 
-# e2e tests
-$ ./utils.sh test:e2e
+```graphql
+# Examples
 
-# test coverage
-$ ./utils.sh test:cov
+query {
+  users {
+    id
+    username
+    password
+    email
+    profile {
+      id
+      firstName
+      lastName
+    }
+    events {
+      id
+      name
+      description
+    }
+    attended {
+      id
+    }
+  }
+}
+
+query {
+  user(id: 10) {
+    id
+    username
+    profile {
+      id
+      firstName
+      lastName
+    }
+  }
+}
 ```
 
 ## Support
