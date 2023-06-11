@@ -10,6 +10,7 @@ import { Attendee } from './attendee.entity';
 import { User } from '../auth/user.entity';
 import { Expose } from 'class-transformer';
 import { Field, ObjectType } from '@nestjs/graphql';
+import { Paginated } from '../../common/pagination/paginator';
 
 @Entity('events')
 @ObjectType()
@@ -67,3 +68,5 @@ export class Event {
   @Expose()
   attendeeAccepted?: number;
 }
+
+export class PaginatedEvents extends Paginated<Event>(Event) {}

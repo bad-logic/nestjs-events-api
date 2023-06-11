@@ -4,7 +4,6 @@ import { Repository } from 'typeorm';
 import { User } from './user.entity';
 import { Profile } from './profile.entity';
 import { CreateUserDto } from './dto/create-user.dto';
-import { BadGatewayException, BadRequestException } from '@nestjs/common';
 import { Password } from './password';
 
 export class UserService {
@@ -15,7 +14,7 @@ export class UserService {
     private readonly profileRepository: Repository<Profile>,
   ) {}
 
-  public async createUser(user: CreateUserDto) {
+  public async createUser(user: CreateUserDto): Promise<Partial<User>> {
     // create profile
     const profile = new Profile();
     profile.firstName = user.firstName;
@@ -26,7 +25,7 @@ export class UserService {
     newUser.email = user.email;
     newUser.username = user.username;
     newUser.password = await new Password(user.password).hash();
-    newUser.profile = profile;
+    // newUser.profile = profile;
 
     const { password, ...rest } = await this.userRepository.save(newUser);
     return rest;
