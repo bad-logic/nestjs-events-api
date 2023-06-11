@@ -9,7 +9,7 @@ import {
 import { Profile } from './profile.entity';
 import { Event } from '../events/event.entity';
 import { Attendee } from '../events/attendee.entity';
-import { Field, ObjectType } from '@nestjs/graphql';
+import { Field, Int, ObjectType } from '@nestjs/graphql';
 
 @Entity('users')
 @ObjectType()
@@ -19,7 +19,7 @@ export class User {
   }
 
   @PrimaryGeneratedColumn()
-  @Field({ nullable: true })
+  @Field(() => Int, { nullable: true })
   id: number;
 
   @Column({ unique: true })
@@ -39,13 +39,13 @@ export class User {
   @JoinColumn({
     name: 'profile_id',
   })
-  profile: Profile;
+  profile: Promise<Profile>;
 
   @OneToMany(() => Event, (event) => event.organizer)
   @Field(() => [Event])
-  events: Event[];
+  events: Promise<Event[]>;
 
   @OneToMany(() => Attendee, (attendee) => attendee.user)
   @Field(() => [Attendee])
-  attended: Attendee[];
+  attended: Promise<Attendee[]>;
 }

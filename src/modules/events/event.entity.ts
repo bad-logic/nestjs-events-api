@@ -50,7 +50,7 @@ export class Event {
   @JoinColumn({
     name: 'organizer_id',
   })
-  organizer: User;
+  organizer: Promise<User>;
 
   @Column({ nullable: true })
   organizer_id: number;

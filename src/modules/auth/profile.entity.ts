@@ -18,5 +18,5 @@ export class Profile {
   lastName: string;
 
   @OneToOne(() => User, (user) => user.profile)
-  user: User;
+  user: Promise<User>;
 }

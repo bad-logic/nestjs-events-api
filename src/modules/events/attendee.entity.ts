@@ -44,7 +44,7 @@ export class Attendee {
   @JoinColumn({
     name: 'user_id',
   })
-  user: User;
+  user: Promise<User>;
 
   @Column()
   user_id: number;
