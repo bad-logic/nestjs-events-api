@@ -11,6 +11,7 @@ import { JwtStrategy } from './jwt.strategy';
 import { UserController } from './users.controller';
 import { UserResolver } from './user.resolver';
 import { AuthResolver } from './auth.resolver';
+import { UserService } from './user.service';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { AuthResolver } from './auth.resolver';
     LocalStrategy,
     JwtStrategy,
     AuthService,
+    UserService,
     UserResolver,
     AuthResolver,
   ],
