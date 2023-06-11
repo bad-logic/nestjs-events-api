@@ -7,6 +7,7 @@ import {
 } from 'typeorm';
 import { Event } from './event.entity';
 import { User } from '../auth/user.entity';
+import { Field, ObjectType } from '@nestjs/graphql';
 
 export enum AttendeeAnswerEnum {
   Accepted = 1,
@@ -15,8 +16,10 @@ export enum AttendeeAnswerEnum {
 }
 
 @Entity('attendees')
+@ObjectType()
 export class Attendee {
   @PrimaryGeneratedColumn()
+  @Field({ nullable: true })
   id: number;
 
   @ManyToOne(() => Event, (event) => event.attendees, {

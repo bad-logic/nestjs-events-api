@@ -9,8 +9,10 @@ import {
 import { Attendee } from './attendee.entity';
 import { User } from '../auth/user.entity';
 import { Expose } from 'class-transformer';
+import { Field, ObjectType } from '@nestjs/graphql';
 
 @Entity('events')
+@ObjectType()
 export class Event {
   constructor(partial?: Partial<Event>) {
     Object.assign(this, partial);
@@ -18,22 +20,27 @@ export class Event {
 
   @PrimaryGeneratedColumn()
   @Expose()
+  @Field({ nullable: true })
   id: number;
 
   @Column()
   @Expose()
+  @Field({ nullable: true })
   name: string;
 
   @Column()
   @Expose()
+  @Field({ nullable: true })
   description: string;
 
   @Column()
   @Expose()
+  @Field({ nullable: true })
   when: Date;
 
   @Column()
   @Expose()
+  @Field({ nullable: true })
   address: string;
 
   @OneToMany(() => Attendee, (attendee) => attendee.event, { cascade: true })

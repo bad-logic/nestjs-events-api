@@ -9,6 +9,7 @@ import environment from '../../common/environment/environment';
 import { AuthService } from './auth.service';
 import { JwtStrategy } from './jwt.strategy';
 import { UserController } from './users.controller';
+import { UserResolver } from './user.resolver';
 
 @Module({
   imports: [
@@ -21,6 +22,6 @@ import { UserController } from './users.controller';
     }),
   ],
   controllers: [AuthController, UserController],
-  providers: [LocalStrategy, JwtStrategy, AuthService],
+  providers: [LocalStrategy, JwtStrategy, AuthService, UserResolver],
 })
 export class AuthModule {}
